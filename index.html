@@ -1898,23 +1898,23 @@ const DEFAULT_DIV7 = {
   /* 12 RR games per the PDF. Game IDs prefixed with '7_' so they're
      distinct from Div 8 in the cloud bin. */
   games: [
-    /* Friday \u2014 4 games, two pools */
-    { id:'7_1', day:'Fri, May 29', time:'4:30 PM', home:'S1', away:'S4', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'7_2', day:'Fri, May 29', time:'6:00 PM', home:'S2', away:'S3', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'7_3', day:'Fri, May 29', time:'7:30 PM', home:'S5', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'7_4', day:'Fri, May 29', time:'9:00 PM', home:'S6', away:'S7', court:'Sir Robert Borden HS - Gym 1' },
+    /* Friday \u2014 4 games, two pools. Score Sheet (gs) is unassigned Friday. */
+    { id:'7_1', day:'Fri, May 29', time:'4:30 PM', home:'S1', away:'S4', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_jeremie', gs:null} },
+    { id:'7_2', day:'Fri, May 29', time:'6:00 PM', home:'S2', away:'S3', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_jeremie', gs:null} },
+    { id:'7_3', day:'Fri, May 29', time:'7:30 PM', home:'S5', away:'S8', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_kaitlyn', sk:'o_oc_antoni', sc:'o_oc_jeremie', gs:null} },
+    { id:'7_4', day:'Fri, May 29', time:'9:00 PM', home:'S6', away:'S7', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_kaitlyn', sk:'o_oc_antoni', sc:'o_oc_jeremie', gs:null} },
     /* Saturday morning */
-    { id:'7_5', day:'Sat, May 30', time:'9:00 AM',  home:'S1', away:'S5', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'7_6', day:'Sat, May 30', time:'10:30 AM', home:'S2', away:'S6', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_5', day:'Sat, May 30', time:'9:00 AM',  home:'S1', away:'S5', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_kaitlyn', sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
+    { id:'7_6', day:'Sat, May 30', time:'10:30 AM', home:'S2', away:'S6', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_kaitlyn', sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
     /* Saturday early afternoon */
-    { id:'7_7', day:'Sat, May 30', time:'12:00 PM', home:'S1', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'7_8', day:'Sat, May 30', time:'1:30 PM',  home:'S2', away:'S7', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_7', day:'Sat, May 30', time:'12:00 PM', home:'S1', away:'S8', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_kaitlyn', sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
+    { id:'7_8', day:'Sat, May 30', time:'1:30 PM',  home:'S2', away:'S7', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
     /* Saturday afternoon */
-    { id:'7_9', day:'Sat, May 30', time:'3:00 PM',  home:'S4', away:'S5', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'7_10',day:'Sat, May 30', time:'4:30 PM',  home:'S3', away:'S6', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_9', day:'Sat, May 30', time:'3:00 PM',  home:'S4', away:'S5', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
+    { id:'7_10',day:'Sat, May 30', time:'4:30 PM',  home:'S3', away:'S6', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
     /* Saturday evening */
-    { id:'7_11',day:'Sat, May 30', time:'6:00 PM',  home:'S4', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'7_12',day:'Sat, May 30', time:'7:30 PM',  home:'S3', away:'S7', court:'Sir Robert Borden HS - Gym 1' }
+    { id:'7_11',day:'Sat, May 30', time:'6:00 PM',  home:'S4', away:'S8', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
+    { id:'7_12',day:'Sat, May 30', time:'7:30 PM',  home:'S3', away:'S7', court:'Sir Robert Borden HS - Gym 1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} }
   ],
   scores:{}, playoffScores:{}, rosters:{},
   numTeams: '8pool',
@@ -1923,10 +1923,10 @@ const DEFAULT_DIV7 = {
      home/away resolved dynamically by playoffDefs() at render time. IDs
      prefixed with '7_' to keep distinct from Div 8 in the cloud bin. */
   playoffGames: [
-    { id:'7_4TH', day:'Sun, May 31', time:'9:00 AM',  round:'4th Place', court:'c_srb_g1' },
-    { id:'7_3RD', day:'Sun, May 31', time:'10:30 AM', round:'3rd Place', court:'c_srb_g1' },
-    { id:'7_BRZ', day:'Sun, May 31', time:'12:00 PM', round:'Bronze',    court:'c_srb_g1' },
-    { id:'7_GLD', day:'Sun, May 31', time:'1:30 PM',  round:'Gold',      court:'c_srb_g1' }
+    { id:'7_4TH', day:'Sun, May 31', time:'9:00 AM',  round:'4th Place', court:'c_srb_g1', officials:{gc:'o_gc_kaitlyn', sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
+    { id:'7_3RD', day:'Sun, May 31', time:'10:30 AM', round:'3rd Place', court:'c_srb_g1', officials:{gc:'o_gc_kaitlyn', sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
+    { id:'7_BRZ', day:'Sun, May 31', time:'12:00 PM', round:'Bronze',    court:'c_srb_g1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} },
+    { id:'7_GLD', day:'Sun, May 31', time:'1:30 PM',  round:'Gold',      court:'c_srb_g1', officials:{gc:'o_gc_tyler',   sk:'o_oc_antoni', sc:'o_oc_brayden', gs:'o_oc_sami'} }
   ],
   /* Pre-populate Sir Robert Borden HS Gym 1 as a court so contract links work
      and Sunday games can find the venue object. */
@@ -1962,12 +1962,12 @@ const DEFAULT_DIV8 = {
   /* 6 RR games Saturday per the PDF. Game IDs prefixed with '8_' so they're
      distinct from Div 7 in the cloud bin. */
   games: [
-    { id:'8_1', day:'Sat, May 30', time:'9:00 AM',  home:'S1', away:'S4', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'8_2', day:'Sat, May 30', time:'10:30 AM', home:'S2', away:'S3', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'8_3', day:'Sat, May 30', time:'12:00 PM', home:'S4', away:'S5', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'8_4', day:'Sat, May 30', time:'1:30 PM',  home:'S2', away:'S6', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'8_5', day:'Sat, May 30', time:'3:00 PM',  home:'S1', away:'S5', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'8_6', day:'Sat, May 30', time:'4:30 PM',  home:'S3', away:'S6', court:'Sir Robert Borden HS - Gym 2' }
+    { id:'8_1', day:'Sat, May 30', time:'9:00 AM',  home:'S1', away:'S4', court:'Sir Robert Borden HS - Gym 2', officials:{gc:'o_gc_brent',  sk:'o_oc_kiza',   sc:'o_oc_jamie', gs:'o_oc_madison'} },
+    { id:'8_2', day:'Sat, May 30', time:'10:30 AM', home:'S2', away:'S3', court:'Sir Robert Borden HS - Gym 2', officials:{gc:'o_gc_brent',  sk:'o_oc_miller', sc:'o_oc_jamie', gs:'o_oc_madison'} },
+    { id:'8_3', day:'Sat, May 30', time:'12:00 PM', home:'S4', away:'S5', court:'Sir Robert Borden HS - Gym 2', officials:{gc:'o_gc_brent',  sk:'o_oc_kiza',   sc:'o_oc_jamie', gs:'o_oc_madison'} },
+    { id:'8_4', day:'Sat, May 30', time:'1:30 PM',  home:'S2', away:'S6', court:'Sir Robert Borden HS - Gym 2', officials:{gc:'o_gc_brent',  sk:'o_oc_miller', sc:'o_oc_jamie', gs:'o_oc_madison'} },
+    { id:'8_5', day:'Sat, May 30', time:'3:00 PM',  home:'S1', away:'S5', court:'Sir Robert Borden HS - Gym 2', officials:{gc:'o_gc_carman', sk:'o_oc_kiza',   sc:'o_oc_jamie', gs:'o_oc_madison'} },
+    { id:'8_6', day:'Sat, May 30', time:'4:30 PM',  home:'S3', away:'S6', court:'Sir Robert Borden HS - Gym 2', officials:{gc:'o_gc_carman', sk:'o_oc_miller', sc:'o_oc_jamie', gs:'o_oc_madison'} }
   ],
   scores:{}, playoffScores:{}, rosters:{},
   numTeams: '6pool',
@@ -1975,11 +1975,11 @@ const DEFAULT_DIV8 = {
   /* Pre-seed Sunday playoff games. IDs prefixed with '8_' so they don't
      collide with the Div 7 playoff IDs in the cloud bin. */
   playoffGames: [
-    { id:'8_SF1',  day:'Sun, May 31', time:'8:30 AM',  round:'Semi-Final 1', court:'c_srb_g2' },
-    { id:'8_SF2',  day:'Sun, May 31', time:'10:00 AM', round:'Semi-Final 2', court:'c_srb_g2' },
-    { id:'8_CONS', day:'Sun, May 31', time:'11:30 AM', round:'Consolation',  court:'c_srb_g2' },
-    { id:'8_BRZ',  day:'Sun, May 31', time:'1:00 PM',  round:'Bronze',       court:'c_srb_g2' },
-    { id:'8_GLD',  day:'Sun, May 31', time:'2:30 PM',  round:'Gold',         court:'c_srb_g2' }
+    { id:'8_SF1',  day:'Sun, May 31', time:'8:30 AM',  round:'Semi-Final 1', court:'c_srb_g2', officials:{gc:'o_gc_tyler', sk:'o_oc_nathan', sc:'o_oc_madelyn', gs:'o_oc_jamie'} },
+    { id:'8_SF2',  day:'Sun, May 31', time:'10:00 AM', round:'Semi-Final 2', court:'c_srb_g2', officials:{gc:'o_gc_tyler', sk:'o_oc_nathan', sc:'o_oc_madelyn', gs:'o_oc_jamie'} },
+    { id:'8_CONS', day:'Sun, May 31', time:'11:30 AM', round:'Consolation',  court:'c_srb_g2', officials:{gc:'o_gc_tyler', sk:'o_oc_nathan', sc:'o_oc_madelyn', gs:'o_oc_jamie'} },
+    { id:'8_BRZ',  day:'Sun, May 31', time:'1:00 PM',  round:'Bronze',       court:'c_srb_g2', officials:{gc:'o_gc_tyler', sk:'o_oc_nathan', sc:'o_oc_madelyn', gs:'o_oc_jamie'} },
+    { id:'8_GLD',  day:'Sun, May 31', time:'2:30 PM',  round:'Gold',         court:'c_srb_g2', officials:{gc:'o_gc_tyler', sk:'o_oc_nathan', sc:'o_oc_madelyn', gs:'o_oc_kaitlin'} }
   ],
   courts: [
     { id:'c_srb_g2', name:'Sir Robert Borden HS - Gym 2', address:'1115 Greenbank Rd, Nepean, ON K2J 5V1' }
@@ -1994,9 +1994,25 @@ async function init(){
      access. Clear any stale value from previous builds that may have stored one. */
   loginRole = null;
   try { localStorage.removeItem('eoba_login_role'); } catch(e){}
-  /* Seed U13 officials if empty. loadFromCloud will overwrite this if cloud has its own list. */
+  /* Seed U17 officials if empty. loadFromCloud will overwrite this if cloud has its own list. */
   if(!appState.officials||appState.officials.length===0){
-    appState.officials=[{"id": "o_gc_rich", "role": "Gym Captain", "name": "Rich Reitano", "phone": "613-720-9470", "email": ""}, {"id": "o_gc_jack", "role": "Gym Captain", "name": "Jack Dotten", "phone": "613-277-5031", "email": "jack@myblackdog.com"}, {"id": "o_gc_allison", "role": "Gym Captain", "name": "Allison Harvey", "phone": "613-296-5662", "email": "allisonharvey79@gmail.com"}, {"id": "o_gc_tyler", "role": "Gym Captain", "name": "Tyler MacLaren", "phone": "819-360-4385", "email": "mclaren1083@gmail.com"}, {"id": "o_gc_carman", "role": "Gym Captain", "name": "Carman Cox", "phone": "", "email": ""}, {"id": "o_oc_antoni", "role": "Off-Court Official", "name": "Antoni Reitano", "phone": "", "email": "yourhairstylist@msn.com"}, {"id": "o_oc_sammy", "role": "Off-Court Official", "name": "Sammy El", "phone": "343-254-3848", "email": "elmouloudisami@gmail.com"}, {"id": "o_oc_mitchell", "role": "Off-Court Official", "name": "Mitchell Dotten", "phone": "613-852-5078", "email": "mitchell@myblackdog.com"}, {"id": "o_oc_carson", "role": "Off-Court Official", "name": "Carson Harvey", "phone": "", "email": "allisonharvey79@gmail.com"}, {"id": "o_oc_samatar", "role": "Off-Court Official", "name": "Samatar Bakal", "phone": "613-884-1599", "email": "samta.bakal30@gmail.com"}, {"id": "o_oc_kaity", "role": "Off-Court Official", "name": "Kaity Harvey", "phone": "", "email": "allisonharvey79@gmail.com"}, {"id": "o_oc_raheem", "role": "Off-Court Official", "name": "Raheem Tanimowo", "phone": "613-879-4537", "email": "rxhxexmtanimowo@gmail.com"}, {"id": "o_oc_anna", "role": "Off-Court Official", "name": "Anna McLaren", "phone": "", "email": ""}, {"id": "o_oc_sabrina", "role": "Off-Court Official", "name": "Sabrina", "phone": "", "email": ""}, {"id": "o_oc_brayden", "role": "Off-Court Official", "name": "Brayden Cox", "phone": "", "email": ""}];
+    appState.officials=[
+      {"id":"o_gc_tyler",   "role":"Gym Captain",        "name":"Tyler McLaren",       "phone":"819-360-4385","email":"mclaren1083@gmail.com"},
+      {"id":"o_gc_kaitlyn", "role":"Gym Captain",        "name":"Kaitlyn Harvey",      "phone":"","email":""},
+      {"id":"o_gc_brent",   "role":"Gym Captain",        "name":"Brent Cournoyer",     "phone":"","email":""},
+      {"id":"o_gc_carman",  "role":"Gym Captain",        "name":"Carman Cox",          "phone":"","email":""},
+      {"id":"o_oc_antoni",  "role":"Off-Court Official", "name":"Antoni Reitano",      "phone":"","email":"yourhairstylist@msn.com"},
+      {"id":"o_oc_sami",    "role":"Off-Court Official", "name":"Sami El Mouloudi",    "phone":"343-254-3848","email":"elmouloudisami@gmail.com"},
+      {"id":"o_oc_jeremie", "role":"Off-Court Official", "name":"Jeremie Chenier",     "phone":"","email":""},
+      {"id":"o_oc_brayden", "role":"Off-Court Official", "name":"Brayden Cox",         "phone":"","email":""},
+      {"id":"o_oc_kiza",    "role":"Off-Court Official", "name":"Kiza Mbendera",       "phone":"","email":""},
+      {"id":"o_oc_miller",  "role":"Off-Court Official", "name":"Miller Cotton",       "phone":"","email":""},
+      {"id":"o_oc_madison", "role":"Off-Court Official", "name":"Madison Moran",       "phone":"","email":""},
+      {"id":"o_oc_jamie",   "role":"Off-Court Official", "name":"Jamie Moran",         "phone":"","email":""},
+      {"id":"o_oc_nathan",  "role":"Off-Court Official", "name":"Nathan Pentland",     "phone":"","email":""},
+      {"id":"o_oc_madelyn", "role":"Off-Court Official", "name":"Madelyn Robilliard",  "phone":"","email":""},
+      {"id":"o_oc_kaitlin", "role":"Off-Court Official", "name":"Kaitlin Dobbin",      "phone":"","email":""}
+    ];
     saveLocal();
   }
 
@@ -2535,9 +2551,9 @@ function apAssignments(t) {
           <div style="flex:1 1 180px;min-width:180px">${offSel('f_gc_'+g.id,go.gc,gcOffs)}</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px">
-          <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px;letter-spacing:0.5px">Scorekeeper</div>${offSel('f_sk_'+g.id,go.sk,ocOffs)}</div>
+          <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px;letter-spacing:0.5px">Time Clock</div>${offSel('f_sk_'+g.id,go.sk,ocOffs)}</div>
           <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px;letter-spacing:0.5px">Shot Clock</div>${offSel('f_sc_'+g.id,go.sc,ocOffs)}</div>
-          <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px;letter-spacing:0.5px">Game Sheet</div>${offSel('f_gs_'+g.id,go.gs,ocOffs)}</div>
+          <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px;letter-spacing:0.5px">Score Sheet</div>${offSel('f_gs_'+g.id,go.gs,ocOffs)}</div>
         </div></div>`;
     });
   });
@@ -2794,7 +2810,7 @@ function apReimbursement(t) {
       ${(isOttawa && gymNet > REIMB_OTTAWA_GYM_MAX)?`<div style="color:var(--orange);font-size:11px;padding-left:14px">Capped at Ottawa max</div><div style="text-align:right;color:var(--orange);font-size:11px;font-variant-numeric:tabular-nums">${fmt(REIMB_OTTAWA_GYM_MAX)}</div>`:''}
       <div style="border-top:1px solid var(--border);padding-top:6px;margin-top:2px"><strong>Gym Reimbursable</strong>${gymCapNote}</div><div style="border-top:1px solid var(--border);padding-top:6px;margin-top:2px;text-align:right;font-variant-numeric:tabular-nums;font-weight:700">${fmt(gymReimbursable)}</div>
       <div>Ref Costs ${isOttawa?'<span style="color:var(--muted);font-size:11px">(N/A for Ottawa teams)</span>':''}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(refCosts)}</div>
-      <div>Game Sheet \u00b7 ${gsAssignments} assigned \u00d7 ${fmt(REIMB_OC_RATE)}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(gameSheetTotal)}</div>
+      <div>Score Sheet \u00b7 ${gsAssignments} assigned \u00d7 ${fmt(REIMB_OC_RATE)}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(gameSheetTotal)}</div>
       <div>Score Clock \u00b7 ${scAssignments} assigned \u00d7 ${fmt(REIMB_OC_RATE)}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(scoreClockTotal)}</div>
       <div>Shot Clock \u00b7 ${shotClockGames} \u00d7 ${fmt(REIMB_OC_RATE)} ${isHSAge?'<span style="color:var(--muted);font-size:11px">(HS age)</span>':'<span style="color:var(--muted);font-size:11px">(N/A non-HS)</span>'}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(shotClockTotalBilled)}</div>
       <div>Gym Captain \u00b7 ${gcAssignments} assigned \u00d7 ${fmt(REIMB_GC_RATE)}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(gcTotal)}</div>
@@ -2825,7 +2841,7 @@ function apReimbursement(t) {
     </div>`;
   } else {
     h += `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;text-align:center;color:var(--muted);font-size:13px">
-      No assignments yet \u2014 assign Gym Captain / Scorekeeper / Shot Clock / Game Sheet officials to games in the <strong>Assignments</strong> tab to populate the per-official fee breakdown.
+      No assignments yet \u2014 assign Gym Captain / Time Clock / Shot Clock / Score Sheet officials to games in the <strong>Assignments</strong> tab to populate the per-official fee breakdown.
     </div>`;
   }
   return h;
@@ -2933,7 +2949,7 @@ function printReimbursement(tId){
     <tbody>
       <tr><td>Gym Cost <span style="color:#888;font-size:11px">(net of Friday deduction${(r.isOttawa!==false && gymNet > REIMB_OTTAWA_GYM_MAX) ? ', capped at $'+REIMB_OTTAWA_GYM_MAX : ''})</span></td><td class="num">\u2014</td><td class="num">\u2014</td><td class="num">${fmt(gymReimbursable)}</td></tr>
       <tr><td>Ref Costs ${(r.isOttawa!==false)?'<span style="color:#888;font-size:11px">(N/A for Ottawa teams)</span>':''}</td><td class="num">\u2014</td><td class="num">\u2014</td><td class="num">${fmt(refCosts)}</td></tr>
-      <tr><td>Table Official 1 \u2014 Game Sheet</td><td class="num">${gsAssignments}</td><td class="num">${fmt(REIMB_OC_RATE)}</td><td class="num">${fmt(gameSheetTotal)}</td></tr>
+      <tr><td>Table Official 1 \u2014 Score Sheet</td><td class="num">${gsAssignments}</td><td class="num">${fmt(REIMB_OC_RATE)}</td><td class="num">${fmt(gameSheetTotal)}</td></tr>
       <tr><td>Table Official 2 \u2014 Score Clock</td><td class="num">${scAssignments}</td><td class="num">${fmt(REIMB_OC_RATE)}</td><td class="num">${fmt(scoreClockTotal)}</td></tr>
       <tr><td>Table Official 3 \u2014 Shot Clock <span style="color:#888;font-size:11px">${isHSAge?'(HS age)':'(N/A non-HS)'}</span></td><td class="num">${shotClockGames}</td><td class="num">${fmt(REIMB_OC_RATE)}</td><td class="num">${fmt(shotClockTotal)}</td></tr>
       <tr><td>Gym Captain</td><td class="num">${gcAssignments}</td><td class="num">${fmt(REIMB_GC_RATE)}</td><td class="num">${fmt(gcTotal)}</td></tr>
@@ -3150,9 +3166,9 @@ function apSchedule(t) {
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px">
           <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--orange);margin-bottom:3px">GC</div>${offSel('f_gc_'+g.id,go.gc,gcOffs)}</div>
-          <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Scorekeeper</div>${offSel('f_sk_'+g.id,go.sk,ocOffs)}</div>
+          <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Time Clock</div>${offSel('f_sk_'+g.id,go.sk,ocOffs)}</div>
           <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Shot Clock</div>${offSel('f_sc_'+g.id,go.sc,ocOffs)}</div>
-          <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Game Sheet</div>${offSel('f_gs_'+g.id,go.gs,ocOffs)}</div>
+          <div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Score Sheet</div>${offSel('f_gs_'+g.id,go.gs,ocOffs)}</div>
         </div></div>`;
     });
   });
