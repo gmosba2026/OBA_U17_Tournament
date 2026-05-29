@@ -1218,23 +1218,24 @@ function playoffDefs(n) {
     {id:'GLD',round:'Gold',  time:'12:00 PM',court:'Vimy Ridge PS',seeds:[1,2]}
   ];
   if(n==='8pool') return [
-    /* Two-pool format: 4 cross-pool Sunday placement games. Seed strings
-       like '1A' reference 1st place of pool A, '2B' = 2nd of pool B, etc.
-       Resolved by slot() against the per-pool standings on st.byPool. */
-    {id:'8_4TH', round:'4th Place', time:'9:00 AM',  court:'Sir Robert Borden HS', seeds:['4A','4B']},
-    {id:'8_3RD', round:'3rd Place', time:'10:30 AM', court:'Sir Robert Borden HS', seeds:['3A','3B']},
-    {id:'8_BRZ', round:'Bronze',    time:'12:00 PM', court:'Sir Robert Borden HS', seeds:['2A','2B']},
-    {id:'8_GLD', round:'Gold',      time:'1:30 PM',  court:'Sir Robert Borden HS', seeds:['1A','1B']}
+    /* Div 7 (8-team) two-pool format: 4 cross-pool Sunday placement games.
+       Seed strings like '1A' reference 1st place of pool A, '2B' = 2nd of
+       pool B, etc. Resolved by slot() against the per-pool standings on
+       st.byPool. */
+    {id:'7_4TH', round:'4th Place', time:'9:00 AM',  court:'Sir Robert Borden HS', seeds:['4A','4B']},
+    {id:'7_3RD', round:'3rd Place', time:'10:30 AM', court:'Sir Robert Borden HS', seeds:['3A','3B']},
+    {id:'7_BRZ', round:'Bronze',    time:'12:00 PM', court:'Sir Robert Borden HS', seeds:['2A','2B']},
+    {id:'7_GLD', round:'Gold',      time:'1:30 PM',  court:'Sir Robert Borden HS', seeds:['1A','1B']}
   ];
   if(n==='6pool') return [
-    /* Two-pool format with semifinals: SF1 = A1 vs B2, SF2 = B1 vs A2.
-       Consolation between 3rd-place finishers (5th-place overall). Bronze
-       and Gold derived from semifinal winners/losers. */
-    {id:'7_SF1',  round:'Semi-Final 1', time:'8:30 AM',  court:'Sir Robert Borden HS', seeds:['1A','2B']},
-    {id:'7_SF2',  round:'Semi-Final 2', time:'10:00 AM', court:'Sir Robert Borden HS', seeds:['1B','2A']},
-    {id:'7_CONS', round:'Consolation',  time:'11:30 AM', court:'Sir Robert Borden HS', seeds:['3A','3B']},
-    {id:'7_BRZ',  round:'Bronze',       time:'1:00 PM',  court:'Sir Robert Borden HS', seeds:['L_7_SF1','L_7_SF2']},
-    {id:'7_GLD',  round:'Gold',         time:'2:30 PM',  court:'Sir Robert Borden HS', seeds:['W_7_SF1','W_7_SF2']}
+    /* Div 8 (6-team) two-pool format with semifinals: SF1 = A1 vs B2,
+       SF2 = B1 vs A2. Consolation between 3rd-place finishers (5th-place
+       overall). Bronze and Gold derived from semifinal winners/losers. */
+    {id:'8_SF1',  round:'Semi-Final 1', time:'8:30 AM',  court:'Sir Robert Borden HS', seeds:['1A','2B']},
+    {id:'8_SF2',  round:'Semi-Final 2', time:'10:00 AM', court:'Sir Robert Borden HS', seeds:['1B','2A']},
+    {id:'8_CONS', round:'Consolation',  time:'11:30 AM', court:'Sir Robert Borden HS', seeds:['3A','3B']},
+    {id:'8_BRZ',  round:'Bronze',       time:'1:00 PM',  court:'Sir Robert Borden HS', seeds:['L_8_SF1','L_8_SF2']},
+    {id:'8_GLD',  round:'Gold',         time:'2:30 PM',  court:'Sir Robert Borden HS', seeds:['W_8_SF1','W_8_SF2']}
   ];
   return [];
 }
@@ -1296,10 +1297,10 @@ function slot(t,desc,st,defs) {
     'W_PI': ()=>pWin(t,'PI',st,defs),
     'L_SF1':()=>pLos(t,'SF1',st,defs), 'L_SF2':()=>pLos(t,'SF2',st,defs),
     'W_SF1':()=>pWin(t,'SF1',st,defs), 'W_SF2':()=>pWin(t,'SF2',st,defs),
-    /* Div 7 (6pool) uses prefixed semi-final IDs so they don't collide with
+    /* Div 8 (6pool) uses prefixed semi-final IDs so they don't collide with
        other formats in the cloud bin. */
-    'L_7_SF1':()=>pLos(t,'7_SF1',st,defs), 'L_7_SF2':()=>pLos(t,'7_SF2',st,defs),
-    'W_7_SF1':()=>pWin(t,'7_SF1',st,defs), 'W_7_SF2':()=>pWin(t,'7_SF2',st,defs)
+    'L_8_SF1':()=>pLos(t,'8_SF1',st,defs), 'L_8_SF2':()=>pLos(t,'8_SF2',st,defs),
+    'W_8_SF1':()=>pWin(t,'8_SF1',st,defs), 'W_8_SF2':()=>pWin(t,'8_SF2',st,defs)
   };
   return map[desc]?map[desc]():{id:null,name:String(desc),tbd:true};
 }
@@ -1868,9 +1869,9 @@ const DEFAULT_T2 = {
 };
 
 /* 2026 Ontario Cup U17 Boys Division 7 — May 29-31, 2026
-   Two-pool format: 6 teams split into two pools of 3. Each team plays the
-   other 2 teams in their pool (6 games total Saturday). Sunday features
-   2 semifinals + consolation + bronze + gold at Sir Robert Borden HS Gym 2. */
+   Two-pool format: 8 teams split into two pools of 4. Each team plays the
+   other 3 teams in their pool (12 games total Fri-Sat). Sunday features
+   4 cross-pool placement games (4th/3rd/Bronze/Gold) at Gym 1. */
 const DEFAULT_DIV7 = {
   id: 'oba_u17_div7_2026',
   name: '2026 Ontario Cup U17 Boys',
@@ -1878,55 +1879,66 @@ const DEFAULT_DIV7 = {
   dates: 'May 29\u201331, 2026',
   location: 'Sir Robert Borden HS',
   teams: [
-    /* Pool A (seeds 1, 4, 5) */
-    { id:'S1', name:'Seed 1', logo:null },
-    { id:'S4', name:'Seed 4', logo:null },
-    { id:'S5', name:'Seed 5', logo:null },
-    /* Pool B (seeds 2, 3, 6) */
-    { id:'S2', name:'Seed 2', logo:null },
-    { id:'S3', name:'Seed 3', logo:null },
-    { id:'S6', name:'Seed 6', logo:null }
+    /* Pool A (seeds 1, 4, 5, 8) */
+    { id:'S1', name:'South Muskoka Breakers U17 Boys', logo:null },
+    { id:'S4', name:'Game 6 Sports U17',               logo:null },
+    { id:'S5', name:'Chatham Kent Wildcats',           logo:null },
+    { id:'S8', name:'Thornhill Thunder - Silver',      logo:null },
+    /* Pool B (seeds 2, 3, 6, 7) */
+    { id:'S2', name:'Jump Basketball East',            logo:null },
+    { id:'S3', name:'SBA Team Heraldo',                logo:null },
+    { id:'S6', name:'Midland Waves U17 Boys',          logo:null },
+    { id:'S7', name:'Temiskaming Thunder U17 Boys',    logo:null }
   ],
-  /* Pool assignments per the PDF — 3 teams per pool */
+  /* Pool assignments per the PDF — 4 teams per pool */
   pools: {
-    A: ['S1','S4','S5'],
-    B: ['S2','S3','S6']
+    A: ['S1','S4','S5','S8'],
+    B: ['S2','S3','S6','S7']
   },
-  /* Round-robin within each pool: 3 teams \u00d7 2 opponents each / 2 = 3
-     games per pool, 6 total Saturday. Game IDs prefixed with '7_' to keep
+  /* 12 RR games per the PDF. Game IDs prefixed with '7_' so they're
      distinct from Div 8 in the cloud bin. */
   games: [
-    { id:'7_1', day:'Sat, May 30', time:'9:00 AM',  home:'S1', away:'S4', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'7_2', day:'Sat, May 30', time:'10:30 AM', home:'S2', away:'S3', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'7_3', day:'Sat, May 30', time:'12:00 PM', home:'S4', away:'S5', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'7_4', day:'Sat, May 30', time:'1:30 PM',  home:'S2', away:'S6', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'7_5', day:'Sat, May 30', time:'3:00 PM',  home:'S1', away:'S5', court:'Sir Robert Borden HS - Gym 2' },
-    { id:'7_6', day:'Sat, May 30', time:'4:30 PM',  home:'S3', away:'S6', court:'Sir Robert Borden HS - Gym 2' }
+    /* Friday \u2014 4 games, two pools */
+    { id:'7_1', day:'Fri, May 29', time:'4:30 PM', home:'S1', away:'S4', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_2', day:'Fri, May 29', time:'6:00 PM', home:'S2', away:'S3', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_3', day:'Fri, May 29', time:'7:30 PM', home:'S5', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_4', day:'Fri, May 29', time:'9:00 PM', home:'S6', away:'S7', court:'Sir Robert Borden HS - Gym 1' },
+    /* Saturday morning */
+    { id:'7_5', day:'Sat, May 30', time:'9:00 AM',  home:'S1', away:'S5', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_6', day:'Sat, May 30', time:'10:30 AM', home:'S2', away:'S6', court:'Sir Robert Borden HS - Gym 1' },
+    /* Saturday early afternoon */
+    { id:'7_7', day:'Sat, May 30', time:'12:00 PM', home:'S1', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_8', day:'Sat, May 30', time:'1:30 PM',  home:'S2', away:'S7', court:'Sir Robert Borden HS - Gym 1' },
+    /* Saturday afternoon */
+    { id:'7_9', day:'Sat, May 30', time:'3:00 PM',  home:'S4', away:'S5', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_10',day:'Sat, May 30', time:'4:30 PM',  home:'S3', away:'S6', court:'Sir Robert Borden HS - Gym 1' },
+    /* Saturday evening */
+    { id:'7_11',day:'Sat, May 30', time:'6:00 PM',  home:'S4', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
+    { id:'7_12',day:'Sat, May 30', time:'7:30 PM',  home:'S3', away:'S7', court:'Sir Robert Borden HS - Gym 1' }
   ],
   scores:{}, playoffScores:{}, rosters:{},
-  numTeams: '6pool',
+  numTeams: '8pool',
   hideTeamsGrid: true,
   /* Pre-seed Sunday playoff games so officials can be assigned in advance.
      home/away resolved dynamically by playoffDefs() at render time. IDs
      prefixed with '7_' to keep distinct from Div 8 in the cloud bin. */
   playoffGames: [
-    { id:'7_SF1',  day:'Sun, May 31', time:'8:30 AM',  round:'Semi-Final 1', court:'c_srb_g2' },
-    { id:'7_SF2',  day:'Sun, May 31', time:'10:00 AM', round:'Semi-Final 2', court:'c_srb_g2' },
-    { id:'7_CONS', day:'Sun, May 31', time:'11:30 AM', round:'Consolation',  court:'c_srb_g2' },
-    { id:'7_BRZ',  day:'Sun, May 31', time:'1:00 PM',  round:'Bronze',       court:'c_srb_g2' },
-    { id:'7_GLD',  day:'Sun, May 31', time:'2:30 PM',  round:'Gold',         court:'c_srb_g2' }
+    { id:'7_4TH', day:'Sun, May 31', time:'9:00 AM',  round:'4th Place', court:'c_srb_g1' },
+    { id:'7_3RD', day:'Sun, May 31', time:'10:30 AM', round:'3rd Place', court:'c_srb_g1' },
+    { id:'7_BRZ', day:'Sun, May 31', time:'12:00 PM', round:'Bronze',    court:'c_srb_g1' },
+    { id:'7_GLD', day:'Sun, May 31', time:'1:30 PM',  round:'Gold',      court:'c_srb_g1' }
   ],
-  /* Pre-populate Sir Robert Borden HS Gym 2 as a court so contract links work
+  /* Pre-populate Sir Robert Borden HS Gym 1 as a court so contract links work
      and Sunday games can find the venue object. */
   courts: [
-    { id:'c_srb_g2', name:'Sir Robert Borden HS - Gym 2', address:'1115 Greenbank Rd, Nepean, ON K2J 5V1' }
+    { id:'c_srb_g1', name:'Sir Robert Borden HS - Gym 1', address:'1115 Greenbank Rd, Nepean, ON K2J 5V1' }
   ]
 };
 
 /* 2026 Ontario Cup U17 Boys Division 8 — same weekend, same venue, separate
-   bracket from Div 7. Pool seeding 1/4/5/8 in Pool A and 2/3/6/7 in Pool B
-   per the PDF schedule. Game IDs are namespaced to '8_' prefix to avoid
-   any chance of collision with Div 7 games in the cloud bin. */
+   bracket from Div 7. 6 teams in two pools of 3, single Saturday round-robin
+   at Gym 2 + Sunday semifinals/consolation/bronze/gold. Game IDs prefixed
+   '8_' to avoid collision with Div 7 in the cloud bin. */
 const DEFAULT_DIV8 = {
   id: 'oba_u17_div8_2026',
   name: '2026 Ontario Cup U17 Boys',
@@ -1934,55 +1946,43 @@ const DEFAULT_DIV8 = {
   dates: 'May 29\u201331, 2026',
   location: 'Sir Robert Borden HS',
   teams: [
-    /* Pool A (seeds 1, 4, 5, 8) */
-    { id:'S1', name:'Seed 1', logo:null },
-    { id:'S4', name:'Seed 4', logo:null },
-    { id:'S5', name:'Seed 5', logo:null },
-    { id:'S8', name:'Seed 8', logo:null },
-    /* Pool B (seeds 2, 3, 6, 7) */
-    { id:'S2', name:'Seed 2', logo:null },
-    { id:'S3', name:'Seed 3', logo:null },
-    { id:'S6', name:'Seed 6', logo:null },
-    { id:'S7', name:'Seed 7', logo:null }
+    /* Pool A (seeds 1, 4, 5) */
+    { id:'S1', name:'U17B Trailblazers',               logo:null },
+    { id:'S4', name:'Lindsay Wildcats',                logo:null },
+    { id:'S5', name:'Guelph Knights Red - U17 Nelson', logo:null },
+    /* Pool B (seeds 2, 3, 6) */
+    { id:'S2', name:'BALL905 Brampton',                logo:null },
+    { id:'S3', name:'GLADIATORS U17 BOYS BRAD',        logo:null },
+    { id:'S6', name:'DBA Team Mills',                  logo:null }
   ],
   pools: {
-    A: ['S1','S4','S5','S8'],
-    B: ['S2','S3','S6','S7']
+    A: ['S1','S4','S5'],
+    B: ['S2','S3','S6']
   },
-  /* 12 RR games per the PDF. Game IDs prefixed with '8_' so they're
+  /* 6 RR games Saturday per the PDF. Game IDs prefixed with '8_' so they're
      distinct from Div 7 in the cloud bin. */
   games: [
-    /* Friday — 4 games, two pools */
-    { id:'8_1', day:'Fri, May 29', time:'4:30 PM', home:'S1', away:'S4', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'8_2', day:'Fri, May 29', time:'6:00 PM', home:'S2', away:'S3', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'8_3', day:'Fri, May 29', time:'7:30 PM', home:'S5', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'8_4', day:'Fri, May 29', time:'9:00 PM', home:'S6', away:'S7', court:'Sir Robert Borden HS - Gym 1' },
-    /* Saturday morning */
-    { id:'8_5', day:'Sat, May 30', time:'9:00 AM',  home:'S1', away:'S5', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'8_6', day:'Sat, May 30', time:'10:30 AM', home:'S2', away:'S6', court:'Sir Robert Borden HS - Gym 1' },
-    /* Saturday early afternoon */
-    { id:'8_7', day:'Sat, May 30', time:'12:00 PM', home:'S1', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'8_8', day:'Sat, May 30', time:'1:30 PM',  home:'S2', away:'S7', court:'Sir Robert Borden HS - Gym 1' },
-    /* Saturday afternoon */
-    { id:'8_9', day:'Sat, May 30', time:'3:00 PM',  home:'S4', away:'S5', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'8_10',day:'Sat, May 30', time:'4:30 PM',  home:'S3', away:'S6', court:'Sir Robert Borden HS - Gym 1' },
-    /* Saturday evening */
-    { id:'8_11',day:'Sat, May 30', time:'6:00 PM',  home:'S4', away:'S8', court:'Sir Robert Borden HS - Gym 1' },
-    { id:'8_12',day:'Sat, May 30', time:'7:30 PM',  home:'S3', away:'S7', court:'Sir Robert Borden HS - Gym 1' }
+    { id:'8_1', day:'Sat, May 30', time:'9:00 AM',  home:'S1', away:'S4', court:'Sir Robert Borden HS - Gym 2' },
+    { id:'8_2', day:'Sat, May 30', time:'10:30 AM', home:'S2', away:'S3', court:'Sir Robert Borden HS - Gym 2' },
+    { id:'8_3', day:'Sat, May 30', time:'12:00 PM', home:'S4', away:'S5', court:'Sir Robert Borden HS - Gym 2' },
+    { id:'8_4', day:'Sat, May 30', time:'1:30 PM',  home:'S2', away:'S6', court:'Sir Robert Borden HS - Gym 2' },
+    { id:'8_5', day:'Sat, May 30', time:'3:00 PM',  home:'S1', away:'S5', court:'Sir Robert Borden HS - Gym 2' },
+    { id:'8_6', day:'Sat, May 30', time:'4:30 PM',  home:'S3', away:'S6', court:'Sir Robert Borden HS - Gym 2' }
   ],
   scores:{}, playoffScores:{}, rosters:{},
-  numTeams: '8pool',
+  numTeams: '6pool',
   hideTeamsGrid: true,
   /* Pre-seed Sunday playoff games. IDs prefixed with '8_' so they don't
      collide with the Div 7 playoff IDs in the cloud bin. */
   playoffGames: [
-    { id:'8_4TH', day:'Sun, May 31', time:'9:00 AM',  round:'4th Place', court:'c_srb_g1' },
-    { id:'8_3RD', day:'Sun, May 31', time:'10:30 AM', round:'3rd Place', court:'c_srb_g1' },
-    { id:'8_BRZ', day:'Sun, May 31', time:'12:00 PM', round:'Bronze',    court:'c_srb_g1' },
-    { id:'8_GLD', day:'Sun, May 31', time:'1:30 PM',  round:'Gold',      court:'c_srb_g1' }
+    { id:'8_SF1',  day:'Sun, May 31', time:'8:30 AM',  round:'Semi-Final 1', court:'c_srb_g2' },
+    { id:'8_SF2',  day:'Sun, May 31', time:'10:00 AM', round:'Semi-Final 2', court:'c_srb_g2' },
+    { id:'8_CONS', day:'Sun, May 31', time:'11:30 AM', round:'Consolation',  court:'c_srb_g2' },
+    { id:'8_BRZ',  day:'Sun, May 31', time:'1:00 PM',  round:'Bronze',       court:'c_srb_g2' },
+    { id:'8_GLD',  day:'Sun, May 31', time:'2:30 PM',  round:'Gold',         court:'c_srb_g2' }
   ],
   courts: [
-    { id:'c_srb_g1', name:'Sir Robert Borden HS - Gym 1', address:'1115 Greenbank Rd, Nepean, ON K2J 5V1' }
+    { id:'c_srb_g2', name:'Sir Robert Borden HS - Gym 2', address:'1115 Greenbank Rd, Nepean, ON K2J 5V1' }
   ]
 };
 
