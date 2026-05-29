@@ -1,0 +1,22 @@
+# Render Blueprint — 2026 Ontario Cup U17 Boys Tournament Hub
+# Static site at Sir Robert Borden HS (Divisions 7 & 8, May 29–31, 2026).
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: oba-u17-tournament
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: ./
+    previews:
+      generation: off
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
