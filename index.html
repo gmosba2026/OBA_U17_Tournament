@@ -2713,6 +2713,8 @@ function apReimbursement(t) {
   const fridayDeduction = +r.fridayDeduction || 0;
   const refCosts = +r.refCosts || 0;
   const isOttawa = r.isOttawa !== false;  /* default to Ottawa team */
+  const meals = Array.isArray(r.meals) ? r.meals : [];
+  const mealsTotal = meals.reduce((s, m) => s + (+m.amount || 0), 0);
 
   /* Count every game on the schedule (RR + playoffs) — assignments, not
      just finalized scores. An official who worked the game is owed the
@@ -2824,6 +2826,32 @@ function apReimbursement(t) {
     </div>
   </div>`;
 
+  /* Meals reimbursement — one row per meal: date, gym captain receiving the
+     reimbursement, amount. Rows render from t.reimb.meals and persist on
+     Save. Adding/removing a row snapshots current inputs first so unsaved
+     edits in other rows aren't lost when the panel re-renders. */
+  const gcOfficials = (appState.officials || []).filter(o => normalizeRole(o.role) === ROLE_GC);
+  function mealRowHtml(m, idx) {
+    const options = gcOfficials.map(o =>
+      `<option value="${o.id}"${o.id === (m.gcId || '') ? ' selected' : ''}>${(o.name || '').replace(/"/g, '&quot;')}</option>`
+    ).join('');
+    return `<div class="reimb-meal-row" data-idx="${idx}" style="display:grid;grid-template-columns:140px 1fr 110px 36px;gap:8px;margin-bottom:8px;align-items:center">
+      <input type="date" id="reimb_meal_${idx}_date" value="${m.date || ''}" style="background:var(--bg);border:1.5px solid var(--border);border-radius:6px;color:var(--text);padding:6px 8px;font-size:12px;font-family:'Barlow',sans-serif">
+      <select id="reimb_meal_${idx}_gc" style="background:var(--bg);border:1.5px solid var(--border);border-radius:6px;color:var(--text);padding:6px 8px;font-size:12px;font-family:'Barlow',sans-serif"><option value="">— Gym Captain —</option>${options}</select>
+      <input type="number" step="0.01" min="0" id="reimb_meal_${idx}_amt" value="${m.amount != null ? m.amount : ''}" placeholder="$" style="background:var(--bg);border:1.5px solid var(--border);border-radius:6px;color:var(--text);padding:6px 8px;font-size:12px;font-family:'Barlow',sans-serif;text-align:right">
+      <button class="ap-btn" onclick="removeReimbMeal('${t.id}',${idx})" title="Remove meal" style="padding:5px 8px;font-size:12px">✕</button>
+    </div>`;
+  }
+  h += `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:14px">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:6px">Meals</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Per-meal reimbursements for Gym Captains. Click <strong>+ Add Meal</strong>, fill in the row, then hit <strong>Save</strong>.</div>
+    <div id="reimb_meals_list">${meals.map((m, i) => mealRowHtml(m, i)).join('')}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px">
+      <button class="ap-btn" onclick="addReimbMeal('${t.id}')">+ Add Meal</button>
+      <div style="font-size:12px;color:var(--muted)">Meals total: <strong style="color:var(--text)">${fmt(mealsTotal)}</strong></div>
+    </div>
+  </div>`;
+
   /* Detect any games with missing assignments — flag for the admin */
   let unassigned = 0;
   function checkOne(g){
@@ -2837,7 +2865,7 @@ function apReimbursement(t) {
   allPOGames.forEach(checkOne);
 
   /* Summary block */
-  const grandTotalRecalc = gymReimbursable + refCosts + gameSheetTotal + scoreClockTotal + shotClockTotalBilled + gcTotal;
+  const grandTotalRecalc = gymReimbursable + refCosts + gameSheetTotal + scoreClockTotal + shotClockTotalBilled + gcTotal + mealsTotal;
 
   h += `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:14px">
     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:10px">Summary \u2014 ${totalGames} game${totalGames===1?'':'s'} on schedule</div>
@@ -2852,6 +2880,7 @@ function apReimbursement(t) {
       <div>Score Clock \u00b7 ${scAssignments} assigned \u00d7 ${fmt(REIMB_OC_RATE)}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(scoreClockTotal)}</div>
       <div>Shot Clock \u00b7 ${shotClockGames} \u00d7 ${fmt(REIMB_OC_RATE)} ${isHSAge?'<span style="color:var(--muted);font-size:11px">(HS age)</span>':'<span style="color:var(--muted);font-size:11px">(N/A non-HS)</span>'}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(shotClockTotalBilled)}</div>
       <div>Gym Captain \u00b7 ${gcAssignments} assigned \u00d7 ${fmt(REIMB_GC_RATE)}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(gcTotal)}</div>
+      <div>Meals \u00b7 ${meals.length} entr${meals.length===1?'y':'ies'}</div><div style="text-align:right;font-variant-numeric:tabular-nums">${fmt(mealsTotal)}</div>
       <div style="border-top:2px solid var(--orange);padding-top:8px;margin-top:6px;font-size:15px;color:var(--orange)"><strong>Grand Total</strong></div>
       <div style="border-top:2px solid var(--orange);padding-top:8px;margin-top:6px;text-align:right;font-variant-numeric:tabular-nums;font-size:18px;font-weight:900;color:var(--orange)">${fmt(grandTotalRecalc)}</div>
     </div>
@@ -2898,8 +2927,44 @@ function saveReimbursement(tId){
   t.reimb.fridayDeduction= n('reimb_friday');
   t.reimb.refCosts       = n('reimb_ref');
   t.reimb.isOttawa       = v('reimb_isOttawa') === '1';
+  collectReimbMeals(t);
   saveLocal(); syncToCloud(); renderAdminPanel();
   showToast('\u2713 Reimbursement saved');
+}
+
+/* Snapshot any meal-row inputs currently in the DOM into t.reimb.meals. Used
+   by saveReimbursement and by add/remove handlers so unsaved row edits
+   survive a re-render. Drops rows where every field is empty (treats them
+   as discarded blanks). */
+function collectReimbMeals(t){
+  if(!t.reimb) t.reimb = {};
+  const rows = document.querySelectorAll('.reimb-meal-row');
+  const meals = [];
+  rows.forEach(row => {
+    const idx = row.getAttribute('data-idx');
+    const date = (document.getElementById('reimb_meal_'+idx+'_date')||{}).value || '';
+    const gcId = (document.getElementById('reimb_meal_'+idx+'_gc')||{}).value || '';
+    const amtRaw = (document.getElementById('reimb_meal_'+idx+'_amt')||{}).value || '';
+    const amount = parseFloat(amtRaw);
+    if(!date && !gcId && (isNaN(amount) || amount === 0)) return;  /* discard fully-empty row */
+    meals.push({ date, gcId, amount: isNaN(amount) ? 0 : amount });
+  });
+  t.reimb.meals = meals;
+}
+function addReimbMeal(tId){
+  const t = appState.tournaments.find(x => x.id === tId); if(!t) return;
+  if(!t.reimb) t.reimb = {};
+  collectReimbMeals(t);
+  if(!Array.isArray(t.reimb.meals)) t.reimb.meals = [];
+  t.reimb.meals.push({ date: '', gcId: '', amount: 0 });
+  renderAdminPanel();
+}
+function removeReimbMeal(tId, idx){
+  const t = appState.tournaments.find(x => x.id === tId); if(!t) return;
+  collectReimbMeals(t);
+  if(!Array.isArray(t.reimb.meals)) return;
+  t.reimb.meals.splice(idx, 1);
+  saveLocal(); syncToCloud(); renderAdminPanel();
 }
 
 function printReimbursement(tId){
@@ -2951,7 +3016,9 @@ function printReimbursement(tId){
   const gymNet = Math.max(0, (+r.gymCost||0) - (+r.fridayDeduction||0));
   const gymReimbursable = (r.isOttawa !== false) ? Math.min(gymNet, REIMB_OTTAWA_GYM_MAX) : gymNet;
   const refCosts = +r.refCosts || 0;
-  const grandTotal = gymReimbursable + refCosts + gameSheetTotal + scoreClockTotal + shotClockTotal + gcTotal;
+  const meals = Array.isArray(r.meals) ? r.meals : [];
+  const mealsTotal = meals.reduce((s, m) => s + (+m.amount || 0), 0);
+  const grandTotal = gymReimbursable + refCosts + gameSheetTotal + scoreClockTotal + shotClockTotal + gcTotal + mealsTotal;
   const w = window.open('', '_blank', 'width=820,height=1100');
   if(!w){ alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
   const officialsTable = feeRows.length
@@ -2991,9 +3058,18 @@ function printReimbursement(tId){
       <tr><td>Table Official 2 \u2014 Score Clock</td><td class="num">${scAssignments}</td><td class="num">${fmt(REIMB_OC_RATE)}</td><td class="num">${fmt(scoreClockTotal)}</td></tr>
       <tr><td>Table Official 3 \u2014 Shot Clock <span style="color:#888;font-size:11px">${isHSAge?'(HS age)':'(N/A non-HS)'}</span></td><td class="num">${shotClockGames}</td><td class="num">${fmt(REIMB_OC_RATE)}</td><td class="num">${fmt(shotClockTotal)}</td></tr>
       <tr><td>Gym Captain</td><td class="num">${gcAssignments}</td><td class="num">${fmt(REIMB_GC_RATE)}</td><td class="num">${fmt(gcTotal)}</td></tr>
+      <tr><td>Meals <span style="color:#888;font-size:11px">(per-meal Gym Captain reimbursements)</span></td><td class="num">${meals.length}</td><td class="num">&mdash;</td><td class="num">${fmt(mealsTotal)}</td></tr>
     </tbody></table>
     <div class="grand">Grand Total: ${fmt(grandTotal)}</div>
     ${officialsTable}
+    ${meals.length ? `<h2 style="font-size:13px;color:#1a0a2e;border-bottom:1px solid #ccc;padding-bottom:3px;margin:24px 0 8px">Meals Breakdown</h2>
+       <table><thead><tr><th>Date</th><th>Gym Captain</th><th style="text-align:right">Amount</th></tr></thead>
+       <tbody>${meals.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(m=>{
+         const gc = (appState.officials||[]).find(o=>o.id===m.gcId);
+         const gcName = gc ? gc.name : (m.gcId || '—');
+         return `<tr><td>${(m.date||'—').replace(/</g,'&lt;')}</td><td>${gcName.replace(/</g,'&lt;')}</td><td class="num">${fmt(+m.amount||0)}</td></tr>`;
+       }).join('')}</tbody>
+       <tfoot><tr style="background:#f4f4f4;font-weight:700"><td colspan="2" style="text-align:right">Meals Subtotal</td><td class="num">${fmt(mealsTotal)}</td></tr></tfoot></table>` : ''}
     <div class="note">Generated ${new Date().toLocaleString()} \u2014 Email completed form to eobabasketball@gmail.com</div>
     <div class="btns"><button onclick="window.print()">\uD83D\uDDA8 Print</button> <button onclick="window.close()">Close</button></div>
     </body></html>`);
