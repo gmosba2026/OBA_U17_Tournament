@@ -2341,10 +2341,14 @@ function renderAdminPanel() {
   else if(adminTab==='scores')      html+=apGCScores(t);
   html+='</div>';
   /* Preserve scroll position across innerHTML rewrites so the admin isn't
-     yanked to the top every time a re-render fires. */
-  const prevScroll = panel.scrollTop;
-  panel.innerHTML=html;
-  panel.scrollTop = prevScroll;
+     yanked to the top every time a re-render fires. The scrollable element
+     is .ap-body inside the panel (#adminPanel itself is overflow:hidden),
+     so we must read the OLD .ap-body before the rewrite and apply to the
+     NEW .ap-body after. */
+  const prevScroll = (panel.querySelector('.ap-body') || {}).scrollTop || 0;
+  panel.innerHTML = html;
+  const nextBody = panel.querySelector('.ap-body');
+  if (nextBody) nextBody.scrollTop = prevScroll;
 }
 
 function apTournaments() {
