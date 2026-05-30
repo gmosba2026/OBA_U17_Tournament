@@ -454,11 +454,9 @@ body.oba-bg-logos #toast{ z-index:1000; }
 
 // ── CONSTANTS ──
 const PIN     = '128976';
-const DEFAULT_BIN_ID = '6a1b246721f9ee59d29e7377';
-let BIN_ID = localStorage.getItem('oba_u17_bin_id') || DEFAULT_BIN_ID;
-if (!localStorage.getItem('oba_u17_bin_id')) {
-  try { localStorage.setItem('oba_u17_bin_id', DEFAULT_BIN_ID); } catch(e) {}
-}
+const DEFAULT_BIN_ID = '6a1b08c821f9ee59d29e25c9';
+let BIN_ID = DEFAULT_BIN_ID;
+try { localStorage.setItem('oba_u17_bin_id', DEFAULT_BIN_ID); } catch(e) {}
 const BIN_KEY = '$2a$10$nj9pckFuiBt0oO2btSn92OygewVj7PXGGu7yEPAW6M.DjP7WNLX5G';
 const BIN_BASE = 'https://api.jsonbin.io/v3/b/'; const BIN_URL = BIN_BASE + BIN_ID;
 const LS_KEY  = 'oba_u17_hub_v1';
