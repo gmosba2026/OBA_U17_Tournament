@@ -193,7 +193,7 @@ tr.s5{border-left:3px solid var(--rank5)}
 .ap-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none}
 .ap-overlay.open{display:block}
 #adminPanel{
-  position:fixed;right:0;top:0;bottom:0;width:min(420px,100vw);
+  position:fixed;right:0;top:0;bottom:0;width:min(560px,100vw);
   background:var(--surface);border-left:1px solid var(--border);
   z-index:310;transform:translateX(100%);transition:transform .3s;
   display:flex;flex-direction:column;overflow:hidden;
@@ -2835,12 +2835,12 @@ function apReimbursement(t) {
     const options = gcOfficials.map(o =>
       `<option value="${o.id}"${o.id === (m.gcId || '') ? ' selected' : ''}>${(o.name || '').replace(/"/g, '&quot;')}</option>`
     ).join('');
-    return `<div class="reimb-meal-row" data-idx="${idx}" style="display:grid;grid-template-columns:170px 1fr 110px 36px;gap:8px;margin-bottom:8px;align-items:center">
+    return `<div class="reimb-meal-row" data-idx="${idx}" style="display:grid;grid-template-columns:170px minmax(0,1fr) 110px 36px;gap:8px;margin-bottom:8px;align-items:center">
       <div style="position:relative">
         <input type="date" id="reimb_meal_${idx}_date" value="${m.date || ''}" onclick="this.showPicker && this.showPicker()" onfocus="this.showPicker && this.showPicker()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;color:var(--text);padding:6px 30px 6px 8px;font-size:12px;font-family:'Barlow',sans-serif;cursor:pointer;box-sizing:border-box">
         <button type="button" onclick="(function(b){const i=b.previousElementSibling;i.focus();i.showPicker&&i.showPicker();})(this)" title="Pick date" aria-label="Open calendar" style="position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--orange);cursor:pointer;font-size:16px;padding:0 4px;line-height:1">📅</button>
       </div>
-      <select id="reimb_meal_${idx}_gc" style="background:var(--bg);border:1.5px solid var(--border);border-radius:6px;color:var(--text);padding:6px 8px;font-size:12px;font-family:'Barlow',sans-serif"><option value="">— Gym Captain —</option>${options}</select>
+      <select id="reimb_meal_${idx}_gc" style="width:100%;min-width:0;box-sizing:border-box;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;color:var(--text);padding:6px 8px;font-size:12px;font-family:'Barlow',sans-serif"><option value="">— Gym Captain —</option>${options}</select>
       <input type="number" step="0.01" min="0" id="reimb_meal_${idx}_amt" value="${m.amount != null ? m.amount : ''}" placeholder="$" style="background:var(--bg);border:1.5px solid var(--border);border-radius:6px;color:var(--text);padding:6px 8px;font-size:12px;font-family:'Barlow',sans-serif;text-align:right">
       <button class="ap-btn" onclick="removeReimbMeal('${t.id}',${idx})" title="Remove meal" style="padding:5px 8px;font-size:12px">✕</button>
     </div>`;
