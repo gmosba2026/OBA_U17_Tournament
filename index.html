@@ -537,8 +537,8 @@ const _IS_SANDBOX = window.location.href.startsWith('about:')
 // Minimal first-party tracking. No IPs, no referrer, no geolocation. One
 // event per browser per UTC day. Bot UAs filtered. Piggybacks on JSONBin
 // (appState.analytics array, capped at 1000 most recent events).
-const _ANALYTICS_WINDOW_START = '2026-04-30';
-const _ANALYTICS_WINDOW_END   = '2026-05-03';
+const _ANALYTICS_WINDOW_START = '2026-05-29';
+const _ANALYTICS_WINDOW_END   = '2026-05-31';
 
 function _getVisitorId(){
   let vid = null;
@@ -2661,7 +2661,7 @@ function apAnalytics() {
     <div style="background:linear-gradient(135deg,var(--orange) 0%,#c2580e 100%);border-radius:8px;padding:14px 16px;color:#fff">
       <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:0.85;font-weight:700">Unique Visitors</div>
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:900;line-height:1">${allUniq.size}</div>
-      <div style="font-size:10px;opacity:0.8;margin-top:2px">Apr 22\u201326</div>
+      <div style="font-size:10px;opacity:0.8;margin-top:2px">May 29\u201331</div>
     </div>
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px">
       <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700">Total Visits</div>
