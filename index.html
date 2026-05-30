@@ -250,6 +250,15 @@ tr.s5{border-left:3px solid var(--rank5)}
   .ap-item[style*="flex-direction:column"] > div:first-child{
     flex-direction:column;align-items:flex-start
   }
+  /* Meal row: stack on small screens so the amount + ✕ stay reachable.
+     Date wrapper and gym-captain select each span the full width; amount
+     and remove button share the last row. */
+  .reimb-meal-row{
+    grid-template-columns:minmax(0,1fr) 40px !important;
+    gap:6px !important;
+  }
+  .reimb-meal-row > div:first-child{ grid-column:1 / -1 }
+  .reimb-meal-row > select{ grid-column:1 / -1 }
 }
 @media(max-width:400px){
   .hinner{grid-template-columns:1fr;justify-items:center}
