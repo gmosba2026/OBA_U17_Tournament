@@ -1264,6 +1264,42 @@ function poolRRDone(t, poolLetter) {
     return !isNaN(h) && !isNaN(a) && h !== a;
   });
 }
+/* True iff the team currently at `rank` of `pool` cannot be displaced from
+   that exact rank no matter how the remaining pool games play out.
+   Enumerates four extreme outcomes per remaining game (home wins by 1 / by
+   20, away wins by 1 / by 20). Cap-diff is monotonic in margin within ±20
+   so the four extremes cover all real cases for the OBA tiebreaker rules.
+   Used by slot() to fill bracket seeds early when a placement is locked. */
+function isPoolRankLocked(t, pool, rank, currentSt) {
+  if (!t.pools || !t.pools[pool]) return false;
+  const ids = new Set(t.pools[pool]);
+  const remaining = (t.games || []).filter(g => {
+    if (!ids.has(g.home) || !ids.has(g.away)) return false;
+    const sc = t.scores[g.id];
+    return !sc || sc.home == null || sc.away == null;
+  });
+  if (remaining.length === 0) return true;
+  const arr = (currentSt && currentSt.byPool) ? currentSt.byPool[pool] : [];
+  const target = arr[rank - 1];
+  if (!target) return false;
+  const margins = [[99,98],[99,79],[98,99],[79,99]];
+  function recurse(i, overlay) {
+    if (i === remaining.length) {
+      const tCopy = Object.assign({}, t, { scores: Object.assign({}, t.scores, overlay) });
+      const st = calcStandings(tCopy);
+      if (!st.byPool || !st.byPool[pool]) return false;
+      const here = st.byPool[pool][rank - 1];
+      return !!(here && here.id === target.id);
+    }
+    for (const m of margins) {
+      const overlay2 = Object.assign({}, overlay);
+      overlay2[remaining[i].id] = { home: m[0], away: m[1] };
+      if (!recurse(i + 1, overlay2)) return false;
+    }
+    return true;
+  }
+  return recurse(0, {});
+}
 function pRes(t,id) {
   const sc=t.playoffScores[id]; if(!sc||sc.home==null||sc.away==null) return null;
   const h=+sc.home,a=+sc.away; return (isNaN(h)||isNaN(a))?null:{h,a};
@@ -1285,13 +1321,13 @@ function slot(t,desc,st,defs) {
   if (poolMatch && st && st.byPool) {
     const rank = parseInt(poolMatch[1], 10);
     const pool = poolMatch[2];
-    /* Only commit to a team when that pool's standings are locked */
-    if (!poolRRDone(t, pool)) {
-      return { id: null, name: 'Pool ' + pool + ' #' + rank, seed: desc, tbd: true };
-    }
     const arr = st.byPool[pool] || [];
     const tm = arr[rank - 1];
-    return tm
+    /* Reveal the team name as soon as we can prove the rank is locked — either
+       the whole pool RR is complete, or the team currently at this rank
+       can't be displaced by any remaining pool result. */
+    const locked = poolRRDone(t, pool) || isPoolRankLocked(t, pool, rank, st);
+    return (tm && locked)
       ? { id: tm.id, name: tm.name, seed: desc }
       : { id: null, name: 'Pool ' + pool + ' #' + rank, seed: desc, tbd: true };
   }
